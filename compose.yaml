@@ -52,6 +52,9 @@ services:
   redis:
     image: redis:7-alpine
     restart: unless-stopped
+    # 追加
+    volumes:
+        - redis_data:/data
   postgres:
     image: pgautoupgrade/pgautoupgrade:latest
     ports:
@@ -63,9 +66,17 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_HOST_AUTH_METHOD: "trust"
+    # 追加
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
   email:
     image: maildev/maildev
     ports:
       - "1080:1080"
       - "1025:1025"
     restart: unless-stopped
+
+# 追加
+volumes:
+  redis_data:
+  postgres_data:
